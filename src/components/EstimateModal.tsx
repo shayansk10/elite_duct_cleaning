@@ -19,6 +19,8 @@ export default function EstimateModal({ isOpen, onClose, preselectedServiceId = 
     email: "",
     zip_code: "",
     service_address: "",
+    preferred_date: "",
+    preferred_time: "",
     service_required: "",
     additional_details: ""
   });
@@ -48,7 +50,15 @@ export default function EstimateModal({ isOpen, onClose, preselectedServiceId = 
     e.preventDefault();
     setError(null);
 
-    if (!formData.name || !formData.phone || !formData.email || !formData.zip_code || !formData.service_address) {
+    if (
+      !formData.name ||
+      !formData.phone ||
+      !formData.email ||
+      !formData.zip_code ||
+      !formData.service_address ||
+      !formData.preferred_date ||
+      !formData.preferred_time
+    ) {
       setError("Please fill in all required fields.");
       return;
     }
@@ -91,6 +101,8 @@ export default function EstimateModal({ isOpen, onClose, preselectedServiceId = 
       email: "",
       zip_code: "",
       service_address: "",
+      preferred_date: "",
+      preferred_time: "",
       service_required: "",
       additional_details: ""
     });
@@ -230,6 +242,39 @@ export default function EstimateModal({ isOpen, onClose, preselectedServiceId = 
                         onChange={(e) => setFormData({ ...formData, service_address: e.target.value })}
                         className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 rounded-xl px-4 py-2.5 text-sm font-semibold outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                       />
+                    </div>
+
+                    {/* Preferred Date & Preferred Time */}
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      {/* Preferred Date */}
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 font-mono">
+                          Preferred Date *
+                        </label>
+                        <input
+                          type="date"
+                          required
+                          name="preferred_date"
+                          value={formData.preferred_date}
+                          onChange={(e) => setFormData({ ...formData, preferred_date: e.target.value })}
+                          className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 rounded-xl px-4 py-2.5 text-sm font-semibold outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 dark:[color-scheme:dark]"
+                        />
+                      </div>
+
+                      {/* Preferred Time */}
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 font-mono">
+                          Preferred Time *
+                        </label>
+                        <input
+                          type="time"
+                          required
+                          name="preferred_time"
+                          value={formData.preferred_time}
+                          onChange={(e) => setFormData({ ...formData, preferred_time: e.target.value })}
+                          className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 rounded-xl px-4 py-2.5 text-sm font-semibold outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 dark:[color-scheme:dark]"
+                        />
+                      </div>
                     </div>
 
                     {/* Service selection */}
