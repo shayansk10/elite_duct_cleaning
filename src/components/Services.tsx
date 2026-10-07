@@ -63,7 +63,7 @@ export default function Services({ onOpenEstimateModal }: ServicesProps) {
 
                   {/* Bullet Benefits Highlights */}
                   <ul className="space-y-2.5 mb-8">
-                    {service.benefits.slice(0, 2).map((benefit, bIdx) => (
+                    {service.benefits.map((benefit, bIdx) => (
                       <li key={bIdx} className="flex items-start gap-2 text-xs font-medium text-slate-600 dark:text-slate-400">
                         <Icons.Check className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
                         <span>{benefit}</span>

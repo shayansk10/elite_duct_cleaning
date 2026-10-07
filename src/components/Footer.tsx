@@ -52,9 +52,10 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm text-slate-300">
               <li><a href="#services" className="hover:text-white transition-colors">Air Duct Cleaning</a></li>
               <li><a href="#services" className="hover:text-white transition-colors">Dryer Vent Cleaning</a></li>
-              <li><a href="#services" className="hover:text-white transition-colors">HVAC System Sanitization</a></li>
-              <li><a href="#services" className="hover:text-white transition-colors">Vent Inspections</a></li>
-              <li><a href="#services" className="hover:text-white transition-colors">Commercial Ventilation</a></li>
+              <li><a href="#services" className="hover:text-white transition-colors">HVAC System Cleaning</a></li>
+              <li><a href="#services" className="hover:text-white transition-colors">Vent Inspection & Diagnostics</a></li>
+              <li><a href="#services" className="hover:text-white transition-colors">Chimney Cleaning</a></li>
+              <li><a href="#services" className="hover:text-white transition-colors">Attic Insulation</a></li>
             </ul>
           </div>
 

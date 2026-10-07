@@ -68,29 +68,27 @@ export const SERVICES_DATA: Service[] = [
     ]
   },
   {
-    id: "commercial-duct-cleaning",
-    title: "Commercial Duct Cleaning",
-    description: "Heavy-duty ventilation cleaning compliant with NADCA standards for retail, medical, and office buildings.",
-    longDescription: "We specialize in commercial and institutional duct cleaning tailored to minimize corporate downtime. Certified under NADCA ACR standards, we restore office campuses, manufacturing centers, healthcare units, and retail zones. Our crew ensures pristine IAQ (Indoor Air Quality) that lowers workplace absenteeism and supports building code compliance.",
-    iconName: "ShieldCheck",
+    id: "chimney-cleaning",
+    title: "Chimney Cleaning",
+    description: "Professional chimney cleaning designed to remove soot, ash, and built-up debris to help keep your chimney cleaner and your home safer.",
+    longDescription: "Professional chimney cleaning designed to remove soot, ash, and built-up debris to help keep your chimney cleaner and your home safer. Our specialized flue sweeping equipment and high-efficiency HEPA vacuums clear creosote, ash, and obstructions, helping maintain proper draft airflow and keeping your home safe.",
+    iconName: "FlameKindling",
     benefits: [
-      "Ensures full compliance with OSHA and local health codes",
-      "Reduces workplace absenteeism by improving employee IAQ",
-      "Cleans high-volume multi-zone distribution plenums",
-      "Scheduled after-hours to ensure zero business disruption"
+      "Helps remove soot & buildup",
+      "Helps maintain proper chimney airflow",
+      "Professional, careful cleaning"
     ]
   },
   {
-    id: "residential-duct-cleaning",
-    title: "Residential Duct Cleaning",
-    description: "Full-home duct scrubbing designed to protect families, pets, and modern high-efficiency HVAC networks.",
-    longDescription: "Your home is your sanctuary. Our residential process is highly customized to match the sensitive ecosystem of your family. We protect your interior finishes with heavy-duty drop cloths, corner guards, and plastic register seals. Our negative-pressure systems keep all dislodged dust vacuumed directly to our service trucks.",
-    iconName: "Home",
+    id: "attic-insulation",
+    title: "Attic Insulation",
+    description: "Professional attic insulation solutions designed to improve home comfort and energy efficiency by reducing unwanted heat transfer.",
+    longDescription: "Professional attic insulation solutions designed to improve home comfort and energy efficiency by reducing unwanted heat transfer. We provide advanced thermal barrier installations and blown-in insulation upgrades that seal air leaks, stabilize indoor climate conditions across all seasons, and optimize HVAC efficiency.",
+    iconName: "Layers",
     benefits: [
-      "Creates a pristine breathing space for asthma sufferers",
-      "Captures thick pet hair and dander from deep registers",
-      "Completely sanitizes newly purchased or renovated homes",
-      "100% white-glove, mess-free service guarantee"
+      "Helps maintain more consistent indoor temperatures",
+      "Can reduce heat loss and heat gain",
+      "Helps improve overall home energy efficiency"
     ]
   }
 ];
@@ -136,7 +134,7 @@ export const TESTIMONIALS_DATA: Testimonial[] = [
     rating: 5,
     date: "May 12, 2026",
     review: "Elite Duct Cleaning was absolutely phenomenal. They took their time, laid down protective drop cloths everywhere, and showed me the before and after video of our main ducts. I couldn't believe how much drywall dust was in there from our recent remodel. The airflow is literally twice as strong now, and my son's morning allergies have vanished.",
-    serviceType: "Residential Air Duct & Vent Cleaning",
+    serviceType: "Air Duct Cleaning",
     verified: true
   },
   {
@@ -156,7 +154,7 @@ export const TESTIMONIALS_DATA: Testimonial[] = [
     rating: 5,
     date: "April 05, 2026",
     review: "As an office building manager, maintaining air quality is key to holding lease agreements. Elite handled our multi-floor HVAC system over the weekend. They completed the work NADCA-compliant, left the facility in spotless shape, and provided a comprehensive video inspection report. Outstanding corporate service.",
-    serviceType: "Commercial Duct Cleaning",
+    serviceType: "HVAC System Cleaning",
     verified: true
   },
   {

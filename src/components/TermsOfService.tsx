@@ -78,7 +78,9 @@ export default function TermsOfService({ onGoHome }: TermsOfServiceProps) {
               <li>Air Duct System Cleaning & Decontamination</li>
               <li>Dryer Vent Lint Clearing & Exhaust Optimization</li>
               <li>HVAC Coil, Blower, & Plenum Maintenance</li>
-              <li>Sanitization and Air Quality Consultation Services</li>
+              <li>Vent Inspection & Diagnostics</li>
+              <li>Chimney Cleaning & Buildup Removal</li>
+              <li>Attic Insulation & Thermal Efficiency Solutions</li>
             </ul>
             <p className="text-slate-600 dark:text-slate-400 text-sm pt-1">
               Depending on the customer&apos;s geographical location, services may be fulfilled directly by our team or coordinated with qualified, licensed local service partners.

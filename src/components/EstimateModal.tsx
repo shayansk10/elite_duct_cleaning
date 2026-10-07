@@ -8,9 +8,15 @@ interface EstimateModalProps {
   isOpen: boolean;
   onClose: () => void;
   preselectedServiceId?: string;
+  initialDetails?: string;
 }
 
-export default function EstimateModal({ isOpen, onClose, preselectedServiceId = "" }: EstimateModalProps) {
+export default function EstimateModal({
+  isOpen,
+  onClose,
+  preselectedServiceId = "",
+  initialDetails = "",
+}: EstimateModalProps) {
   const formRef = useRef<HTMLFormElement>(null);
 
   const [formData, setFormData] = useState({
@@ -28,7 +34,7 @@ export default function EstimateModal({ isOpen, onClose, preselectedServiceId = 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Sync state if modal is loaded with specific preselection
+  // Sync state if modal is loaded with specific preselection or details
   React.useEffect(() => {
     if (preselectedServiceId) {
       const match = SERVICES_DATA.find(
@@ -37,14 +43,16 @@ export default function EstimateModal({ isOpen, onClose, preselectedServiceId = 
       setFormData((prev) => ({
         ...prev,
         service_required: match ? match.title : preselectedServiceId,
+        additional_details: initialDetails ? initialDetails : prev.additional_details,
       }));
     } else {
       setFormData((prev) => ({
         ...prev,
         service_required: "",
+        additional_details: initialDetails ? initialDetails : prev.additional_details,
       }));
     }
-  }, [preselectedServiceId, isOpen]);
+  }, [preselectedServiceId, initialDetails, isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,6 +88,21 @@ export default function EstimateModal({ isOpen, onClose, preselectedServiceId = 
       if (result.status === 200 || result.text === "OK") {
         setSubmitting(false);
         setSuccess(true);
+
+        // Track GA event if user submitted with the October Offer
+        if (
+          formData.additional_details &&
+          formData.additional_details.includes("October Special Offer")
+        ) {
+          if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
+            (window as any).gtag("event", "october_offer_form_submitted", {
+              offer_name: "October Special Offer $178",
+              total_price: 178,
+              event_category: "Promotions",
+              event_label: "Estimate Modal Submission",
+            });
+          }
+        }
       } else {
         throw new Error("Failed to send estimate request. Please try again.");
       }

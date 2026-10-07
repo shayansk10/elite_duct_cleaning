@@ -30,9 +30,22 @@ export default function ContactForm() {
       }
     };
 
+    const handlePrefillOffer = (e: Event) => {
+      const customEvent = e as CustomEvent<{ note: string; service?: string }>;
+      if (customEvent.detail && customEvent.detail.note) {
+        setFormData((prev) => ({
+          ...prev,
+          service_required: customEvent.detail.service || "Air Duct Cleaning",
+          additional_details: customEvent.detail.note,
+        }));
+      }
+    };
+
     window.addEventListener("prefill-zip", handlePrefillZip);
+    window.addEventListener("prefill-offer", handlePrefillOffer);
     return () => {
       window.removeEventListener("prefill-zip", handlePrefillZip);
+      window.removeEventListener("prefill-offer", handlePrefillOffer);
     };
   }, []);
 
@@ -70,6 +83,22 @@ export default function ContactForm() {
       if (result.status === 200 || result.text === "OK") {
         setSubmitting(false);
         setSuccess(true);
+
+        // Track GA event if submitted with October Offer
+        if (
+          formData.additional_details &&
+          formData.additional_details.includes("October Special Offer")
+        ) {
+          if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
+            (window as any).gtag("event", "october_offer_form_submitted", {
+              offer_name: "October Special Offer $178",
+              total_price: 178,
+              event_category: "Promotions",
+              event_label: "Contact Form Submission",
+            });
+          }
+        }
+
         setFormData({
           name: "",
           phone: "",
