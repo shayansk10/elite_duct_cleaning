@@ -84,14 +84,14 @@ export default function ContactForm() {
         setSubmitting(false);
         setSuccess(true);
 
-        // Track GA event if submitted with October Offer
+        // Track GA event if submitted with November Offer
         if (
           formData.additional_details &&
-          formData.additional_details.includes("October Special Offer")
+          formData.additional_details.includes("November Special Offer")
         ) {
           if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
-            (window as any).gtag("event", "october_offer_form_submitted", {
-              offer_name: "October Special Offer $178",
+            (window as any).gtag("event", "november_offer_form_submitted", {
+              offer_name: "November Special Offer $178",
               total_price: 178,
               event_category: "Promotions",
               event_label: "Contact Form Submission",

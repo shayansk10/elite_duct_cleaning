@@ -1,16 +1,16 @@
 import React from "react";
 import { Flame, ArrowRight, ShieldCheck, Tag, Sparkles, CheckCircle2 } from "lucide-react";
 
-interface OctoberOfferBannerProps {
+interface NovemberOfferBannerProps {
   onClaim: () => void;
 }
 
-export default function OctoberOfferBanner({ onClaim }: OctoberOfferBannerProps) {
+export default function NovemberOfferBanner({ onClaim }: NovemberOfferBannerProps) {
   const handleClaim = () => {
     // Track GA event for banner claim
     if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
-      (window as any).gtag("event", "october_offer_claimed", {
-        offer_name: "October Special Offer $178",
+      (window as any).gtag("event", "november_offer_claimed", {
+        offer_name: "November Special Offer $178",
         source: "banner",
         event_category: "Promotions",
       });
@@ -37,7 +37,7 @@ export default function OctoberOfferBanner({ onClaim }: OctoberOfferBannerProps)
                 <div className="flex flex-wrap items-center gap-2.5">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider font-mono bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20">
                     <Flame className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                    🔥 OCTOBER SPECIAL
+                    🔥 NOVEMBER SPECIAL
                   </span>
                   <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                     SAVE $50
@@ -130,7 +130,7 @@ export default function OctoberOfferBanner({ onClaim }: OctoberOfferBannerProps)
 
                   <div className="py-6">
                     <span className="text-xs font-mono uppercase tracking-widest text-amber-400 font-bold block mb-1">
-                      OCTOBER OFFER TOTAL
+                      NOVEMBER OFFER TOTAL
                     </span>
                     <div className="flex items-baseline justify-center sm:justify-start gap-2">
                       <span className="text-sm font-bold font-mono text-blue-400 uppercase">
@@ -151,7 +151,7 @@ export default function OctoberOfferBanner({ onClaim }: OctoberOfferBannerProps)
                     onClick={handleClaim}
                     className="w-full flex items-center justify-center gap-2.5 py-4 px-6 rounded-2xl bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white font-extrabold text-sm sm:text-base tracking-wide shadow-lg shadow-blue-600/30 active:scale-98 transition-all cursor-pointer"
                   >
-                    <span>CLAIM OCTOBER OFFER</span>
+                    <span>CLAIM NOVEMBER OFFER</span>
                     <ArrowRight className="w-5 h-5" />
                   </button>
 

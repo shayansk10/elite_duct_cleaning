@@ -2,20 +2,20 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Flame, ArrowRight, ShieldCheck, Tag, Sparkles } from "lucide-react";
 
-interface OctoberOfferModalProps {
+interface NovemberOfferModalProps {
   onClaim: () => void;
 }
 
-export const OCTOBER_OFFER_NOTE =
-  "Customer is claiming the October Special Offer: Air Duct Cleaning $149 + Dryer Vent Cleaning $29 add-on — Total $178.";
+export const NOVEMBER_OFFER_NOTE =
+  "Customer is claiming the November Special Offer: Air Duct Cleaning $149 + Dryer Vent Cleaning $29 add-on — Total $178.";
 
-export default function OctoberOfferModal({ onClaim }: OctoberOfferModalProps) {
+export default function NovemberOfferModal({ onClaim }: NovemberOfferModalProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     // Check if dismissed in this session
     try {
-      const dismissed = sessionStorage.getItem("october_offer_popup_dismissed");
+      const dismissed = sessionStorage.getItem("november_offer_popup_dismissed");
       if (dismissed === "true") {
         return;
       }
@@ -26,11 +26,10 @@ export default function OctoberOfferModal({ onClaim }: OctoberOfferModalProps) {
     // Delay 2.5 seconds before popping up
     const timer = setTimeout(() => {
       setIsVisible(true);
-
       // Track GA event for popup impression
       if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
-        (window as any).gtag("event", "october_offer_viewed", {
-          offer_name: "October Special Offer $178",
+        (window as any).gtag("event", "november_offer_viewed", {
+          offer_name: "November Special Offer $178",
           event_category: "Promotions",
           event_label: "Popup Impression",
         });
@@ -43,7 +42,7 @@ export default function OctoberOfferModal({ onClaim }: OctoberOfferModalProps) {
   const handleClose = () => {
     setIsVisible(false);
     try {
-      sessionStorage.setItem("october_offer_popup_dismissed", "true");
+      sessionStorage.setItem("november_offer_popup_dismissed", "true");
     } catch {
       // ignore
     }
@@ -54,8 +53,8 @@ export default function OctoberOfferModal({ onClaim }: OctoberOfferModalProps) {
 
     // Track GA event for claim
     if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
-      (window as any).gtag("event", "october_offer_claimed", {
-        offer_name: "October Special Offer $178",
+      (window as any).gtag("event", "november_offer_claimed", {
+        offer_name: "November Special Offer $178",
         source: "popup",
         event_category: "Promotions",
       });
@@ -87,7 +86,7 @@ export default function OctoberOfferModal({ onClaim }: OctoberOfferModalProps) {
             className="relative w-full max-w-lg max-h-[calc(100vh-32px)] sm:max-h-none flex flex-col bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl shadow-blue-950/20 dark:shadow-black/60 overflow-hidden z-10 text-slate-900 dark:text-white my-auto"
             role="dialog"
             aria-modal="true"
-            aria-labelledby="october-offer-title"
+            aria-labelledby="november-offer-title"
           >
             {/* Top decorative accent bar with autumn warm gradient */}
             <div className="h-2 w-full bg-gradient-to-r from-amber-500 via-orange-500 to-blue-600 shrink-0" />
@@ -96,7 +95,7 @@ export default function OctoberOfferModal({ onClaim }: OctoberOfferModalProps) {
             <button
               onClick={handleClose}
               className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 h-9 w-9 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white flex items-center justify-center transition-colors cursor-pointer z-20 shadow-sm"
-              aria-label="Close October Offer"
+              aria-label="Close November Offer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -115,10 +114,10 @@ export default function OctoberOfferModal({ onClaim }: OctoberOfferModalProps) {
 
               {/* Main Title */}
               <h3
-                id="october-offer-title"
+                id="november-offer-title"
                 className="text-2xl sm:text-3xl font-display font-bold tracking-tight text-slate-900 dark:text-white leading-tight"
               >
-                October Ventilation Special
+                November Ventilation Special
               </h3>
               <p className="text-slate-600 dark:text-slate-300 text-sm mt-1.5 leading-relaxed">
                 Freshen indoor airflow before winter heating season begins. Certified full-system decontamination.
@@ -180,7 +179,7 @@ export default function OctoberOfferModal({ onClaim }: OctoberOfferModalProps) {
                       Regular Total: <span className="line-through text-slate-400 dark:text-slate-500 font-semibold">$228</span>
                     </span>
                     <span className="text-xs font-bold text-slate-700 dark:text-slate-200">
-                      October Offer Total:
+                      November Offer Total:
                     </span>
                   </div>
                   <div className="text-right">
@@ -218,7 +217,7 @@ export default function OctoberOfferModal({ onClaim }: OctoberOfferModalProps) {
                   onClick={handleClaim}
                   className="w-full flex items-center justify-center gap-2.5 py-4 px-6 rounded-2xl bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 hover:from-blue-500 hover:to-indigo-600 text-white font-extrabold text-base tracking-wide shadow-xl shadow-blue-700/25 active:scale-98 transition-all cursor-pointer"
                 >
-                  <span>CLAIM OCTOBER OFFER</span>
+                  <span>CLAIM NOVEMBER OFFER</span>
                   <ArrowRight className="w-5 h-5" />
                 </button>
                 <p className="text-center text-[11px] text-slate-400 dark:text-slate-500">

@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
-import OctoberOfferBanner from "./components/OctoberOfferBanner";
-import OctoberOfferModal, { OCTOBER_OFFER_NOTE } from "./components/OctoberOfferModal";
+import NovemberOfferBanner from "./components/NovemberOfferBanner";
+import NovemberOfferModal, { NOVEMBER_OFFER_NOTE } from "./components/NovemberOfferModal";
 import WhyChooseUs from "./components/WhyChooseUs";
 import BeforeAfter from "./components/BeforeAfter";
 import Process from "./components/Process";
@@ -79,8 +79,8 @@ export default function App() {
     setModalInitialDetails("");
   };
 
-  const handleClaimOctoberOffer = () => {
-    handleOpenModal("Air Duct Cleaning", OCTOBER_OFFER_NOTE);
+  const handleClaimNovemberOffer = () => {
+    handleOpenModal("Air Duct Cleaning", NOVEMBER_OFFER_NOTE);
   };
 
   const handleGoHome = () => {
@@ -109,8 +109,8 @@ export default function App() {
               {/* Services Showcase Grid */}
               <Services onOpenEstimateModal={(id) => handleOpenModal(id)} />
 
-              {/* In-Page October Special Offer Banner */}
-              <OctoberOfferBanner onClaim={handleClaimOctoberOffer} />
+              {/* In-Page November Special Offer Banner */}
+              <NovemberOfferBanner onClaim={handleClaimNovemberOffer} />
 
               {/* Why Choose Us Trust Pillars */}
               <WhyChooseUs />
@@ -150,9 +150,9 @@ export default function App() {
           initialDetails={modalInitialDetails}
         />
 
-        {/* 6. Automatic October Offer Popup */}
+        {/* 6. Automatic November Offer Popup */}
         {currentPage === "home" && (
-          <OctoberOfferModal onClaim={handleClaimOctoberOffer} />
+          <NovemberOfferModal onClaim={handleClaimNovemberOffer} />
         )}
       </div>
     </ThemeProvider>
