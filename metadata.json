@@ -1,0 +1,6 @@
+{
+  "name": "Elite Duct Cleaning",
+  "description": "Professional Air Duct, Dryer Vent, and HVAC cleaning services. Breathe cleaner, healthier air with certified local technicians.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
