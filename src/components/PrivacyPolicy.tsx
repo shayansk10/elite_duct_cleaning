@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Shield, ArrowLeft, Mail, Phone, MapPin, Lock, FileText, CheckCircle2 } from "lucide-react";
+import { Shield, ArrowLeft, Mail, MessageSquare, MapPin, Lock, FileText, CheckCircle2 } from "lucide-react";
 import { COMPANY_INFO } from "../data";
 
 interface PrivacyPolicyProps {
@@ -287,8 +287,8 @@ export default function PrivacyPolicy({ onGoHome }: PrivacyPolicyProps) {
                   <span><strong>Email:</strong> <a href="mailto:eliteductcleaning10@gmail.com" className="text-blue-600 dark:text-blue-400 hover:underline">eliteductcleaning10@gmail.com</a></span>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <Phone className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0" />
-                  <span><strong>Phone:</strong> <a href={`tel:${COMPANY_INFO.phoneRaw}`} className="hover:underline">{COMPANY_INFO.phone}</a></span>
+                  <MessageSquare className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0" />
+                  <span><strong>Text:</strong> <a href={`sms:${COMPANY_INFO.phoneRaw}`} className="hover:underline">{COMPANY_INFO.phone}</a></span>
                 </li>
                 <li className="flex items-center gap-2.5">
                   <MapPin className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0" />

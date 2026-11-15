@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
-import { Phone, Calendar, ShieldCheck, Award, Star, ArrowRight } from "lucide-react";
+import { MessageSquare, Calendar, ShieldCheck, Award, Star, ArrowRight } from "lucide-react";
 import { COMPANY_INFO, TRUST_STATS } from "../data";
 // @ts-ignore
 import heroImg from "../assets/images/hero_hvac_tech_1783774159850.jpg";
@@ -85,11 +85,11 @@ export default function Hero({ onOpenEstimateModal }: HeroProps) {
               </button>
 
               <a
-                href={`tel:${COMPANY_INFO.phoneRaw}`}
+                href={`sms:${COMPANY_INFO.phoneRaw}`}
                 className="flex items-center justify-center gap-2.5 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 px-8 py-4 rounded-xl text-base font-bold shadow-sm active:scale-98 transition-all"
               >
-                <Phone className="h-5 w-5 text-[#2563EB] dark:text-blue-400" />
-                <span>Call Now: {COMPANY_INFO.phone}</span>
+                <MessageSquare className="h-5 w-5 text-[#2563EB] dark:text-blue-400" />
+                <span>Text Now: {COMPANY_INFO.phone}</span>
               </a>
             </motion.div>
 

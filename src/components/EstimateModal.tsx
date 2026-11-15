@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Calendar, CheckCircle2, ShieldCheck, Phone, ArrowRight } from "lucide-react";
+import { X, Calendar, CheckCircle2, ShieldCheck, ArrowRight } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import { SERVICES_DATA, COMPANY_INFO } from "../data";
+import AppointmentDatePicker, { isSaturdayDate, parseLocalDate } from "./AppointmentDatePicker";
 
 interface EstimateModalProps {
   isOpen: boolean;
@@ -68,6 +69,16 @@ export default function EstimateModal({
       !formData.preferred_time
     ) {
       setError("Please fill in all required fields.");
+      return;
+    }
+
+    if (isSaturdayDate(formData.preferred_date)) {
+      setError("Saturdays are unavailable. Please choose a preferred date from Sunday to Friday.");
+      return;
+    }
+
+    if (!parseLocalDate(formData.preferred_date)) {
+      setError("Please enter a valid preferred date (YYYY-MM-DD).");
       return;
     }
 
@@ -274,13 +285,10 @@ export default function EstimateModal({
                         <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 font-mono">
                           Preferred Date *
                         </label>
-                        <input
-                          type="date"
-                          required
-                          name="preferred_date"
+                        <AppointmentDatePicker
                           value={formData.preferred_date}
-                          onChange={(e) => setFormData({ ...formData, preferred_date: e.target.value })}
-                          className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 rounded-xl px-4 py-2.5 text-sm font-semibold outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 dark:[color-scheme:dark]"
+                          onChange={(val) => setFormData({ ...formData, preferred_date: val })}
+                          className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 rounded-xl px-4 py-2.5 text-sm font-semibold outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                         />
                       </div>
 

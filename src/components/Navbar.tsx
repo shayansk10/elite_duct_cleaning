@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Phone, Menu, X, Calendar, MapPin, CheckCircle, Sun, Moon } from "lucide-react";
+import { MessageSquare, Menu, X, Calendar, MapPin, CheckCircle, Sun, Moon } from "lucide-react";
 import Logo from "./Logo";
 import { COMPANY_INFO } from "../data";
 import { useTheme } from "../context/ThemeContext";
@@ -14,6 +14,10 @@ export default function Navbar({ onOpenEstimateModal }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const pendingHashTargetRef = useRef<string | null>(null);
+  const isOpenRef = useRef(false);
+  isOpenRef.current = isOpen;
 
   const navLinks = [
     { name: "Services", href: "#services" },
@@ -27,6 +31,11 @@ export default function Navbar({ onOpenEstimateModal }: NavbarProps) {
 
   useEffect(() => {
     const handleScroll = () => {
+      // Do not recalculate active section or header blur while body scroll is locked
+      if (isOpenRef.current || document.body.style.position === "fixed") {
+        return;
+      }
+
       // Background shift on scroll
       if (window.scrollY > 50) {
         setScrolled(true);
@@ -51,9 +60,127 @@ export default function Navbar({ onOpenEstimateModal }: NavbarProps) {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Lock background page scroll while mobile navigation drawer is open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Only apply mobile menu scroll lock below lg breakpoint (< 1024px)
+    const isDesktop = window.innerWidth >= 1024;
+    if (isDesktop) {
+      setIsOpen(false);
+      return;
+    }
+
+    const html = document.documentElement;
+    const body = document.body;
+    const savedScrollY = window.scrollY || window.pageYOffset || html.scrollTop || 0;
+
+    // Preserve any existing inline styles so we never clobber other overlays
+    const prevStyles = {
+      htmlOverflow: html.style.overflow,
+      htmlOverflowX: html.style.overflowX,
+      htmlOverscrollBehavior: html.style.overscrollBehavior,
+      bodyOverflow: body.style.overflow,
+      bodyOverflowX: body.style.overflowX,
+      bodyPosition: body.style.position,
+      bodyTop: body.style.top,
+      bodyLeft: body.style.left,
+      bodyRight: body.style.right,
+      bodyWidth: body.style.width,
+      bodyOverscrollBehavior: body.style.overscrollBehavior,
+    };
+
+    // Apply scroll lock on both html and body (accounts for iOS Safari & Android Chrome)
+    html.style.overflow = "hidden";
+    html.style.overflowX = "hidden";
+    html.style.overscrollBehavior = "none";
+
+    body.style.overflow = "hidden";
+    body.style.overflowX = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${savedScrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.style.overscrollBehavior = "none";
+
+    // Block touch scrolling on background while allowing scrolling inside drawer if needed
+    const handleTouchMove = (e: TouchEvent) => {
+      const drawer = drawerRef.current;
+      const target = e.target as Node | null;
+
+      if (!drawer || !target || !drawer.contains(target)) {
+        e.preventDefault();
+        return;
+      }
+
+      // If drawer content fits within viewport, prevent rubber-band scroll chaining
+      if (drawer.scrollHeight <= drawer.clientHeight) {
+        e.preventDefault();
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("touchmove", handleTouchMove, { passive: false });
+    document.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("resize", handleResize);
+
+      // Restore original styles
+      html.style.overflow = prevStyles.htmlOverflow;
+      html.style.overflowX = prevStyles.htmlOverflowX;
+      html.style.overscrollBehavior = prevStyles.htmlOverscrollBehavior;
+
+      body.style.overflow = prevStyles.bodyOverflow;
+      body.style.overflowX = prevStyles.bodyOverflowX;
+      body.style.position = prevStyles.bodyPosition;
+      body.style.top = prevStyles.bodyTop;
+      body.style.left = prevStyles.bodyLeft;
+      body.style.right = prevStyles.bodyRight;
+      body.style.width = prevStyles.bodyWidth;
+      body.style.overscrollBehavior = prevStyles.bodyOverscrollBehavior;
+
+      // Restore exact scroll position instantly without smooth-scroll jump
+      const prevScrollBehavior = html.style.scrollBehavior;
+      html.style.scrollBehavior = "auto";
+      window.scrollTo(0, savedScrollY);
+      html.style.scrollBehavior = prevScrollBehavior;
+
+      // If user tapped a navigation section link inside the drawer, navigate after unlock
+      const pendingTarget = pendingHashTargetRef.current;
+      if (pendingTarget) {
+        pendingHashTargetRef.current = null;
+        requestAnimationFrame(() => {
+          if (window.location.hash !== pendingTarget) {
+            window.location.hash = pendingTarget;
+          }
+          const targetEl = document.querySelector(pendingTarget);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      }
+    };
+  }, [isOpen]);
 
   return (
     <>
@@ -73,7 +200,7 @@ export default function Navbar({ onOpenEstimateModal }: NavbarProps) {
           <div className="flex items-center gap-4">
             <span className="text-slate-400">Emergency service available 24/7</span>
             <a
-              href={`tel:${COMPANY_INFO.phoneRaw}`}
+              href={`sms:${COMPANY_INFO.phoneRaw}`}
               className="text-white hover:text-navy-300 transition-colors font-bold"
             >
               {COMPANY_INFO.phone}
@@ -123,11 +250,11 @@ export default function Navbar({ onOpenEstimateModal }: NavbarProps) {
           {/* Call-to-Actions (Phone + Estimator Button) */}
           <div className="hidden sm:flex items-center gap-3">
             <a
-              href={`tel:${COMPANY_INFO.phoneRaw}`}
+              href={`sms:${COMPANY_INFO.phoneRaw}`}
               className="flex items-center gap-2 text-slate-700 dark:text-slate-200 hover:text-[#2563EB] dark:hover:text-blue-400 transition-all bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 px-4 py-2 rounded-full text-sm font-bold"
             >
               <div className="w-6 h-6 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center text-[#2563EB] dark:text-blue-400 shrink-0">
-                <Phone className="h-3.5 w-3.5" />
+                <MessageSquare className="h-3.5 w-3.5" />
               </div>
               <span>{COMPANY_INFO.phone}</span>
             </a>
@@ -155,11 +282,11 @@ export default function Navbar({ onOpenEstimateModal }: NavbarProps) {
             </button>
 
             <a
-              href={`tel:${COMPANY_INFO.phoneRaw}`}
+              href={`sms:${COMPANY_INFO.phoneRaw}`}
               className="sm:hidden flex items-center justify-center h-10 w-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-700"
-              aria-label="Call Elite Duct Cleaning"
+              aria-label="Text Elite Duct Cleaning"
             >
-              <Phone className="h-4.5 w-4.5" />
+              <MessageSquare className="h-4.5 w-4.5" />
             </a>
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -183,16 +310,17 @@ export default function Navbar({ onOpenEstimateModal }: NavbarProps) {
               animate={{ opacity: 0.5 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black z-45 lg:hidden"
+              className="fixed inset-0 bg-black z-45 lg:hidden touch-none"
             />
 
             {/* Slide-out Panel */}
             <motion.div
+              ref={drawerRef}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "tween", duration: 0.3, ease: "easeOut" }}
-              className="fixed right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-navy-950 text-white p-6 z-50 flex flex-col justify-between shadow-2xl border-l border-white/5 lg:hidden"
+              className="fixed right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-navy-950 text-white p-6 z-50 flex flex-col justify-between shadow-2xl border-l border-white/5 overflow-y-auto overscroll-contain lg:hidden"
             >
               <div className="flex flex-col gap-8">
                 {/* Drawer Header */}
@@ -225,7 +353,11 @@ export default function Navbar({ onOpenEstimateModal }: NavbarProps) {
                     <a
                       key={link.href}
                       href={link.href}
-                      onClick={() => setIsOpen(false)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        pendingHashTargetRef.current = link.href;
+                        setIsOpen(false);
+                      }}
                       className="text-lg font-medium text-slate-200 hover:text-white border-b border-white/5 pb-2 hover:border-navy-400 transition-all flex justify-between items-center"
                     >
                       <span>{link.name}</span>
@@ -238,11 +370,11 @@ export default function Navbar({ onOpenEstimateModal }: NavbarProps) {
               {/* Drawer Footer Call to Actions */}
               <div className="flex flex-col gap-4 mt-8 pt-6 border-t border-white/10">
                 <a
-                  href={`tel:${COMPANY_INFO.phoneRaw}`}
+                  href={`sms:${COMPANY_INFO.phoneRaw}`}
                   className="flex items-center justify-center gap-2.5 bg-white/5 border border-white/10 hover:bg-white/10 text-white py-3 rounded-xl font-bold transition-all"
                 >
-                  <Phone className="h-4 w-4 text-navy-400 fill-navy-400/20" />
-                  <span>Call {COMPANY_INFO.phone}</span>
+                  <MessageSquare className="h-4 w-4 text-navy-400 fill-navy-400/20" />
+                  <span>Text {COMPANY_INFO.phone}</span>
                 </a>
                 <button
                   onClick={() => {

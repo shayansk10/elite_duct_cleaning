@@ -1,5 +1,5 @@
 import React from "react";
-import { Phone, Calendar } from "lucide-react";
+import { MessageSquare, Calendar } from "lucide-react";
 import { COMPANY_INFO } from "../data";
 
 interface FloatingCTAProps {
@@ -40,13 +40,13 @@ export default function FloatingCTA({ onOpenEstimateModal }: FloatingCTAProps) {
         className="fixed bottom-0 left-0 right-0 bg-navy-950/95 backdrop-blur-md border-t border-white/10 p-3 flex sm:hidden gap-3 z-40 shadow-xl shadow-black"
         style={{ position: "fixed" }}
       >
-        {/* Call button */}
+        {/* Text button */}
         <a
-          href={`tel:${COMPANY_INFO.phoneRaw}`}
+          href={`sms:${COMPANY_INFO.phoneRaw}`}
           className="flex-1 flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/10 text-white py-3.5 px-4 rounded-xl text-sm font-bold active:scale-95 transition-all"
         >
-          <Phone className="h-4.5 w-4.5 text-blue-400 fill-blue-400/10" />
-          <span>Call Now</span>
+          <MessageSquare className="h-4.5 w-4.5 text-blue-400 fill-blue-400/10" />
+          <span>Text Now</span>
         </a>
 
         {/* Estimate trigger */}

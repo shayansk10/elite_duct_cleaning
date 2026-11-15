@@ -116,7 +116,7 @@ export default function FAQ() {
             Still have an unanswered question about our professional ventilation systems? 
             <a href="#contact" className="text-blue-600 dark:text-blue-400 font-bold ml-1 hover:underline">
               Submit your inquiry to our experts
-            </a> or message us directly at <a href={`tel:${COMPANY_INFO.phoneRaw}`} className="text-slate-900 dark:text-white font-bold hover:underline">{COMPANY_INFO.phone}</a>.
+            </a> or message us directly at <a href={`sms:${COMPANY_INFO.phoneRaw}`} className="text-slate-900 dark:text-white font-bold hover:underline">{COMPANY_INFO.phone}</a>.
           </p>
         </div>
 

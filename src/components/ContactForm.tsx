@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Phone, Mail, Calendar, CheckCircle2, ArrowRight, ShieldCheck, Award, Wrench } from "lucide-react";
+import { MessageSquare, Mail, Calendar, CheckCircle2, ArrowRight, ShieldCheck, Award, Wrench } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import { COMPANY_INFO, SERVICES_DATA } from "../data";
+import AppointmentDatePicker, { isSaturdayDate, parseLocalDate } from "./AppointmentDatePicker";
 
 export default function ContactForm() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -63,6 +64,16 @@ export default function ContactForm() {
       !formData.preferred_time
     ) {
       setError("Please fill in all required fields.");
+      return;
+    }
+
+    if (isSaturdayDate(formData.preferred_date)) {
+      setError("Saturdays are unavailable. Please choose a preferred date from Sunday to Friday.");
+      return;
+    }
+
+    if (!parseLocalDate(formData.preferred_date)) {
+      setError("Please enter a valid preferred date (YYYY-MM-DD).");
       return;
     }
 
@@ -147,16 +158,16 @@ export default function ContactForm() {
             {/* Direct Contact Cards */}
             <div className="grid sm:grid-cols-2 gap-4">
               <a
-                href={`tel:${COMPANY_INFO.phoneRaw}`}
+                href={`sms:${COMPANY_INFO.phoneRaw}`}
                 className="bg-white dark:bg-slate-950/80 border border-slate-200/60 dark:border-slate-800 rounded-2xl p-5 flex items-start gap-4 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-lg dark:hover:shadow-none transition-all group"
               >
                 <div className="h-10 w-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                  <Phone className="h-5 w-5 fill-blue-500/15 group-hover:fill-white/15" />
+                  <MessageSquare className="h-5 w-5 fill-blue-500/15 group-hover:fill-white/15" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold font-mono uppercase text-slate-400 dark:text-slate-500">Phone Support</h4>
+                  <h4 className="text-xs font-bold font-mono uppercase text-slate-400 dark:text-slate-500">Text Support</h4>
                   <p className="text-sm font-bold text-slate-900 dark:text-white mt-1">{COMPANY_INFO.phone}</p>
-                  <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">Call Dispatch Now</span>
+                  <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">Text Dispatch Now</span>
                 </div>
               </a>
 
@@ -355,13 +366,10 @@ export default function ContactForm() {
                         <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 font-mono">
                           Preferred Date *
                         </label>
-                        <input
-                          type="date"
-                          required
-                          name="preferred_date"
+                        <AppointmentDatePicker
                           value={formData.preferred_date}
-                          onChange={(e) => setFormData({ ...formData, preferred_date: e.target.value })}
-                          className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 rounded-xl px-4 py-3 text-sm font-semibold outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 dark:[color-scheme:dark]"
+                          onChange={(val) => setFormData({ ...formData, preferred_date: val })}
+                          className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/30 rounded-xl px-4 py-3 text-sm font-semibold outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                         />
                       </div>
 
@@ -449,7 +457,7 @@ export default function ContactForm() {
                   <div className="bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl p-4 mt-6 text-xs text-left max-w-sm space-y-1.5 font-medium text-slate-500 dark:text-slate-400">
                     <p className="font-bold text-slate-700 dark:text-slate-300">Next Steps:</p>
                     <p>✓ 1. We will verify local dispatch availability for your ZIP.</p>
-                    <p>✓ 2. You will receive a call within 10-15 minutes.</p>
+                    <p>✓ 2. You will receive a text within 10-15 minutes.</p>
                     <p>✓ 3. We confirm appointment date & diagnostic photos.</p>
                   </div>
                   <button

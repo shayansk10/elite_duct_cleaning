@@ -134,10 +134,10 @@ export default function ServiceAreas() {
                           {searchResult.message}
                         </p>
                         <a
-                          href={`tel:${COMPANY_INFO.phoneRaw}`}
+                          href={`sms:${COMPANY_INFO.phoneRaw}`}
                           className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-800 dark:text-amber-300 hover:text-amber-950 dark:hover:text-amber-200 transition-colors mt-2 underline"
                         >
-                          <span>Call Dispatch Hotline</span>
+                          <span>Text Dispatch Hotline</span>
                           <ArrowRight className="h-3 w-3" />
                         </a>
                       </div>

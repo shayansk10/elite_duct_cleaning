@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from "./Logo";
 import { COMPANY_INFO } from "../data";
-import { ShieldCheck, Phone, Mail, MapPin, Facebook, Instagram } from "lucide-react";
+import { ShieldCheck, MessageSquare, Mail, Facebook, Instagram } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -64,10 +64,10 @@ export default function Footer() {
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">Central Support</h4>
             <ul className="space-y-3.5 text-sm text-slate-300">
               <li className="flex items-start gap-3">
-                <Phone className="h-4.5 w-4.5 text-blue-400 shrink-0 mt-0.5" />
+                <MessageSquare className="h-4.5 w-4.5 text-blue-400 shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-slate-400 text-xs">Dispatch Call Center</p>
-                  <a href={`tel:${COMPANY_INFO.phoneRaw}`} className="font-bold text-white hover:text-blue-300 transition-colors">{COMPANY_INFO.phone}</a>
+                  <p className="text-slate-400 text-xs">Dispatch Text Center</p>
+                  <a href={`sms:${COMPANY_INFO.phoneRaw}`} className="font-bold text-white hover:text-blue-300 transition-colors">{COMPANY_INFO.phone}</a>
                 </div>
               </li>
               <li className="flex items-start gap-3">
@@ -75,13 +75,6 @@ export default function Footer() {
                 <div>
                   <p className="text-slate-400 text-xs">Corporate Email</p>
                   <a href={`mailto:${COMPANY_INFO.email}`} className="font-bold text-white hover:text-blue-300 transition-colors break-all">{COMPANY_INFO.email}</a>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <MapPin className="h-4.5 w-4.5 text-blue-400 shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-slate-400 text-xs">Headquarters Location</p>
-                  <span className="font-semibold text-slate-200">{COMPANY_INFO.address}</span>
                 </div>
               </li>
             </ul>
